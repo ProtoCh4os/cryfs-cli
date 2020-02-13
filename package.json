@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/ProtoCh4os/cryfs-cli#readme",
   "dependencies": {
+    "boxen": "^4.2.0",
     "chalk": "^3.0.0",
     "inquirer": "^7.0.4",
     "shelljs": "^0.8.3"
