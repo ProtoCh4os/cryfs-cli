@@ -7,60 +7,63 @@ export default function () {
     .prompt([
       {
         type: "list",
-        message: _.lang.settingsChange[0],
+        message: global.lang.settingsChange[0],
         name: "lang",
         choices: ["en_us"]
       },
       {
         type: "input",
-        message: _.lang.settingsChange[1],
+        message: global.lang.settingsChange[1],
         name: "vaultsPath",
-        default: _.handler.settings.vaultsPath,
+        default: global.config.vaultsPath,
         validate: input => {
           let folder = new Folder(input);
           if (!folder.exists()) {
-            return _.lang.errors.path;
+            return global.lang.errors.path;
           }
           return true;
         }
       },
       {
         type: "input",
-        message: _.lang.settingsChange[2],
+        message: global.lang.settingsChange[2],
         name: "mountingPath",
-        default: _.handler.settings.mountingPath,
+        default: global.config.mountingPath,
         validate: input => {
           let folder = new Folder(input);
           if (!folder.exists()) {
-            return _.lang.pathError;
+            return global.lang.pathError;
           }
           return true;
         }
       },
       {
         type: "list",
-        message: _.lang.settingsChange[3],
+        message: global.lang.settingsChange[3],
         name: "introduction",
-        choices: [`👍 ${_.lang.choices.yes}`,`👎 ${_.lang.choices.no}`]
+        choices: [`👍 ${global.lang.choices.yes}`,`👎 ${global.lang.choices.no}`]
       },
       {
         type: "list",
-        message: _.lang.settingsChange[4],
+        message: global.lang.settingsChange[4],
         name: "confirm",
-        choices: [`👍 ${_.lang.choices.yes}`,`👎 ${_.lang.choices.no}`]
+        choices: [`👍 ${global.lang.choices.yes}`,`👎 ${global.lang.choices.no}`]
       }
     ])
     .then(answers => {
-      if (answers.confirm == `👍 ${_.lang.choices.yes}`){
+      if (answers.confirm == `👍 ${global.lang.choices.yes}`){
         delete answers.confirm;
-        answers.introduction = answers.introduction == `👎 ${_.lang.choices.no}`;
-        var settings = _.handler.settings;
-        _.handler.settings = { ...settings, ...answers };
-        if (_.handler.updateConfig()) {
-          _.c.success();
+        answers.introduction = answers.introduction == `👎 ${global.lang.choices.no}`;
+        var settings = global.config;
+        global.config = { ...settings, ...answers };
+
+        if (_.handler.updateConfig(global.config)) {
+          _.c.success(global.lang.settingsChange[5]);
+        } else {
+          _.c.error(global.lang.errors.generic);
         }
       } else {
-        _.c.fail(_.lang.errors.cancel)
+        _.c.fail(global.lang.errors.cancel)
       }
       mainMenu()
     });

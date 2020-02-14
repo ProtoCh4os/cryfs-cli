@@ -1,13 +1,14 @@
 import shelljs from "shelljs";
-import { settings } from './Config.js'
 import Path from "path";
+import { get as getConfig } from "./Config.js"
 
-const langs = ["en_us"];
+export const langs = ["en_us"];
 
-function get (lang = "") {
+export async function get (lang = "") {
   if(!lang){
-    lang = settings.lang
+    lang = await getConfig();
   }
+
   let path = import.meta.url.substring(7, import.meta.url.length);
   path = Path.dirname(path);
   if (langs.includes(lang)) {
@@ -25,7 +26,7 @@ function get (lang = "") {
   return false;
 }
 
-export default {
-  get,
-  langs
+export async function set() {
+  global.lang = await get();
+  return global.lang;
 }

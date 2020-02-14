@@ -1,6 +1,9 @@
-import main from './menus/main.js'
+import main from "./menus/main.js";
+import { set as config } from "./classes/Config.js";
+import { set as lang } from "./classes/Lang.js";
 
-// App installation: /usr/share/cryfs-cli
-// Vaults path: /var/lib/cryfs-cli
-
-main.startUp();
+config().then(() => {
+  lang().then(() => {
+    main.startUp();
+  });
+});

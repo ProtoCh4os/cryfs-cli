@@ -1,37 +1,39 @@
 import shelljs from "shelljs";
-import fs from "fs";
 
-export var settings = checkConfigFile()
-  ? checkConfigFile()
-  : {
-      introduction: true,
-      vaultsPath: "/var/lib/cryfs-cli/",
-      mountingPath: "/var/lib/cryfs-cli/open/",
-      lang: "en_us"
-    };
+const defaultConfig = {
+  introduction: true,
+  vaultsPath: "/var/lib/cryfs-cli/",
+  mountingPath: "/var/lib/cryfs-cli/open/",
+  lang: "en_us"
+};
 
-export function checkConfigFile() {
-  var settings = shelljs.exec(
+export async function get() {
+  return await checkConfigFile();
+}
+
+export async function set() {
+  global.config = await checkConfigFile();
+}
+
+export async function checkConfigFile() {
+  var opt = shelljs.exec(
     `cat ${process.env.HOME}/.config/cryfs-cli/settings.json`,
     { silent: true }
   );
-  if (settings.code == 0) {
-    fs.readFileSync(
-      `${process.env.HOME}/.config/cryfs-cli/settings.json`,
-      (err, data) => {
-        if (err) {
-          return;
-        }
-        return JSON.parse(data);
-      }
-    );
+  if (opt.code == 0) {
+    try {
+      var json = JSON.parse(opt.stdout);
+      return json;
+    } catch (e) {
+      return defaultConfig;
+    }
   } else {
     return false;
   }
 }
 
-export function createConfig() {
-  if (this.checkConfigFile() === false) {
+export async function createConfig(force = false) {
+  if (checkConfigFile() === false || force) {
     if (
       shelljs.exec(`ls ${process.env.HOME}/.config/cryfs-cli`, {
         silent: true
@@ -47,7 +49,7 @@ export function createConfig() {
         silent: true
       }).code != 0
     ) {
-      let settings = JSON.stringify(this.settings);
+      let settings = JSON.stringify(settings);
       shelljs.exec(
         `echo "${settings}" >> ${process.env.HOME}/.config/cryfs-cli/settings.json`,
         { silent: true }
@@ -58,17 +60,21 @@ export function createConfig() {
   return false;
 }
 
-export function updateConfig(settings = false) {
-  if (this.checkConfigFile) {
-    if (settings !== false && typeof settings === "object") {
-      this.settings = { ...this.settings, settings };
+export async function updateConfig(payload = false) {
+  let settings = await checkConfigFile();
+  if (settings) {
+    if (payload !== false && typeof payload === "object") {
+      settings = { ...settings, ...payload };
     }
-    settings = JSON.stringify(this.settings);
-    shelljs.exec(
-      `echo "${settings}" > ${process.env.HOME}/.config/cryfs-cli/settings.json`,
-      { silent: true }
+    global.config = settings;
+
+    return (
+      shelljs.exec(
+        `echo '${JSON.stringify(settings)}' > ${
+          process.env.HOME
+        }/.config/cryfs-cli/settings.json`,
+        { silent: true }
+      ).code == 0
     );
-    return true;
   }
-  return false;
 }

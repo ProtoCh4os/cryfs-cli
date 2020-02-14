@@ -5,11 +5,11 @@ import close from './close.js'
 import create from './create.js'
 import remove from './remove.js'
 
-export function startUp() {
-  console.log(_.c.title(_.lang.welcome));
+export async function startUp() {
+  console.log(_.c.title(await global.lang.welcome));
 
-  if (_.handler.settings.introduction) {
-    console.log(_.c.title(_.lang.intro));
+  if (global.config.introduction) {
+    console.log(_.c.title(global.lang.intro));
   }
 
   mainMenu()
@@ -20,33 +20,33 @@ export function mainMenu() {
   .prompt([
     {
       type: "list",
-      message: _.lang.menu.prompt,
+      message: global.lang.menu.prompt,
       name: "menu",
       choices: [
-        _.lang.menu.openVault,
-        _.lang.menu.closeVault,
-        _.lang.menu.createVault,
-        _.lang.menu.deleteVault,
-        _.lang.menu.settings,
-        _.lang.menu.exit
+        global.lang.menu.openVault,
+        global.lang.menu.closeVault,
+        global.lang.menu.createVault,
+        global.lang.menu.deleteVault,
+        global.lang.menu.settings,
+        global.lang.menu.exit
       ]
     }
   ])
   .then(answers => {
     var menu = {};
-    menu[_.lang.menu.openVault] = open;
-    menu[_.lang.menu.closeVault] = close;
-    menu[_.lang.menu.createVault] = create;
-    menu[_.lang.menu.deleteVault] = remove;
-    menu[_.lang.menu.settings] = settings;
-    menu[_.lang.menu.exit] = exit;
+    menu[global.lang.menu.openVault] = open;
+    menu[global.lang.menu.closeVault] = close;
+    menu[global.lang.menu.createVault] = create;
+    menu[global.lang.menu.deleteVault] = remove;
+    menu[global.lang.menu.settings] = settings;
+    menu[global.lang.menu.exit] = exit;
 
     menu[answers.menu]();
   });
 }
 
 export function exit() {
-  _.c.say(_.lang.goodbye);
+  _.c.say(global.lang.goodbye);
 }
 
 export default {

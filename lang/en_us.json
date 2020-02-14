@@ -22,7 +22,8 @@
   "errors": {
     "path": "Path is invalid",
     "folder": "Folder is invalid",
-    "cancel": "Operation canceled"
+    "cancel": "Operation canceled",
+    "generic": "Something went wrong..."
   },
   "choices": {
     "yes": "yes",

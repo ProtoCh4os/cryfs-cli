@@ -2,7 +2,6 @@ import chalk from "chalk";
 import boxen from "boxen";
 import inquirer from "inquirer";
 import Handler from "./classes/Handler.js";
-import Lang from "./classes/Lang.js";
 
 const title = input => boxen(input, { padding: 1 });
 const say = input => console.log(chalk.yellow("*"), chalk.cyan(input));
@@ -24,12 +23,9 @@ const c = {
   error
 };
 const handler = new Handler();
-const lang = Lang.get();
-handler.lang = lang;
 
 export default {
   inquirer,
-  lang,
   handler,
   c
 };
