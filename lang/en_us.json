@@ -23,7 +23,9 @@
     "path": "Path is invalid",
     "folder": "Folder is invalid",
     "cancel": "Operation canceled",
-    "generic": "Something went wrong..."
+    "generic": "Something went wrong...",
+    "vaultsDirectoryInvalid": "The chosen directory for storing encrypted vaults is missing. Please select a new one.",
+    "vaultsDirectoryEmpty": "You have no files in the encrypted vaults folder."
   },
   "choices": {
     "yes": "yes",

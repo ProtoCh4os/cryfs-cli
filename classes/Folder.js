@@ -15,4 +15,12 @@ export default class Folder {
   isEmpty() {
     return shelljs.exec(`$(ls -A ${this.path})`, { silent: true }).code == 0;
   }
+
+  getContent() {
+    if (this.isEmpty()) {
+      return false;
+    }
+
+    console.log(shelljs.exec(`ls -d ${this.path}*`))
+  }
 }

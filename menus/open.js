@@ -1,6 +1,13 @@
 import _ from "../util.js";
+import { mainMenu } from './main.js';
 
 export default function() {
-  var folders = _.handler.readVaults();
-  console.log(folders)
+  try{
+    var folders = _.handler.readVaults();
+  } catch (e) {
+    _.c.error(e)
+    mainMenu();
+  }
+
+
 }

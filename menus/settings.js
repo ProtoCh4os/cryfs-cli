@@ -1,6 +1,7 @@
 import _ from "../util.js";
 import Folder from "../classes/Folder.js";
 import { mainMenu } from './main.js'
+import { updateConfig } from '../classes/Config.js'
 
 export default function () {
   _.inquirer
@@ -57,7 +58,7 @@ export default function () {
         var settings = global.config;
         global.config = { ...settings, ...answers };
 
-        if (_.handler.updateConfig(global.config)) {
+        if (updateConfig(global.config)) {
           _.c.success(global.lang.settingsChange[5]);
         } else {
           _.c.error(global.lang.errors.generic);
