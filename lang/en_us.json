@@ -1,14 +1,31 @@
 {
   "welcome": "Welcome to Cryfs-cli!",
   "intro": "This tool is meant to create vault-like folders to store sensitive data,\nthen encrypt it with a password.\n\nUndestand that this tools comes with no warranty, so use with caution.\nDeveloped by @ProtoCh4os",
-  "yes": "yes",
-  "no": "no",
-  "menu1": "What would you like to do?",
-  "openVault": "Open a vault",
-  "closeVault": "Close a vault",
-  "createVault": "Create a vault",
-  "deleteVault": "Delete a vault",
-  "settings": "Settings",
-  "exit": "Exit",
-  "goodbye": "Goodbye! 😊"
+  "menu": {
+    "prompt": "What would you like to do?",
+    "openVault": "Open a vault",
+    "closeVault": "Close a vault",
+    "createVault": "Create a vault",
+    "deleteVault": "Delete a vault",
+    "settings": "Settings",
+    "exit": "Exit"
+  },
+  "goodbye": "Goodbye! 😊",
+  "settingsChange": [
+    "What language would you like?",
+    "Where will your encrypted vaults be located?",
+    "Where will your decrypted vaults be located?",
+    "Would you like to disable the introduction next time?",
+    "Confirm Changes?",
+    "Settings saved!"
+  ],
+  "errors": {
+    "path": "Path is invalid",
+    "folder": "Folder is invalid",
+    "cancel": "Operation canceled"
+  },
+  "choices": {
+    "yes": "yes",
+    "no": "no"
+  }
 }

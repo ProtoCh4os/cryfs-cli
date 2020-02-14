@@ -24,7 +24,7 @@ const c = {
   error
 };
 const handler = new Handler();
-const lang = Lang(handler.settings.lang);
+const lang = Lang.get();
 handler.lang = lang;
 
 export default {
