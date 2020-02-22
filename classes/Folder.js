@@ -1,4 +1,4 @@
-import shelljs from "shelljs";
+import fs from "fs";
 
 export default class Folder {
   constructor(path) {
@@ -9,11 +9,13 @@ export default class Folder {
   }
 
   exists() {
-    return shelljs.exec(`ls ${this.path}`, { silent: true }).code == 0;
+    return fs.lstatSync(`${this.path}`).isDirectory();
   }
 
   isEmpty() {
-    return shelljs.exec(`$(ls -A ${this.path})`, { silent: true }).code == 0;
+    return fs.readdir(this.path, function(err, files) {
+      return !files.length;
+    });
   }
 
   getContent() {
@@ -21,6 +23,8 @@ export default class Folder {
       return false;
     }
 
-    console.log(shelljs.exec(`ls -d ${this.path}*`))
+    return fs.readdir(path, function(err, items) {
+      return items;
+    });
   }
 }
