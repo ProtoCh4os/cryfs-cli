@@ -17,6 +17,9 @@
     "cryfs",
     "cryfs-cli"
   ],
+  "engines": {
+    "node": ">=12.13.0 <12.16.1"
+  },
   "author": "ProtoCh4os",
   "license": "MIT",
   "bugs": {

@@ -1,9 +1,9 @@
 import _ from "../util.js";
 import Folder from "../classes/Folder.js";
-import { mainMenu } from './main.js'
-import { updateConfig } from '../classes/Config.js'
+import { mainMenu } from "./main.js";
+import { updateConfig } from "../classes/Config.js";
 
-export default function () {
+export default function() {
   _.inquirer
     .prompt([
       {
@@ -42,19 +42,26 @@ export default function () {
         type: "list",
         message: global.lang.settingsChange[3],
         name: "introduction",
-        choices: [`👍 ${global.lang.choices.yes}`,`👎 ${global.lang.choices.no}`]
+        choices: [
+          `👍 ${global.lang.choices.yes}`,
+          `👎 ${global.lang.choices.no}`
+        ]
       },
       {
         type: "list",
         message: global.lang.settingsChange[4],
         name: "confirm",
-        choices: [`👍 ${global.lang.choices.yes}`,`👎 ${global.lang.choices.no}`]
+        choices: [
+          `👍 ${global.lang.choices.yes}`,
+          `👎 ${global.lang.choices.no}`
+        ]
       }
     ])
     .then(answers => {
-      if (answers.confirm == `👍 ${global.lang.choices.yes}`){
+      if (answers.confirm == `👍 ${global.lang.choices.yes}`) {
         delete answers.confirm;
-        answers.introduction = answers.introduction == `👎 ${global.lang.choices.no}`;
+        answers.introduction =
+          answers.introduction == `👎 ${global.lang.choices.no}`;
         var settings = global.config;
         global.config = { ...settings, ...answers };
 
@@ -64,8 +71,9 @@ export default function () {
           _.c.error(global.lang.errors.generic);
         }
       } else {
-        _.c.fail(global.lang.errors.cancel)
+        _.c.fail(global.lang.errors.cancel);
       }
-      mainMenu()
-    });
+      mainMenu();
+    })
+    .catch(err => false);
 }

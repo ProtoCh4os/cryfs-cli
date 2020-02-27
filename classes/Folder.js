@@ -9,11 +9,14 @@ export default class Folder {
   }
 
   exists() {
-    return fs.lstatSync(`${this.path}`).isDirectory();
+    return fs.existsSync(this.path) && fs.lstatSync(this.path).isDirectory();
   }
 
   isEmpty() {
     return fs.readdir(this.path, function(err, files) {
+      if (err) {
+        return false;
+      }
       return !files.length;
     });
   }
@@ -24,7 +27,21 @@ export default class Folder {
     }
 
     return fs.readdir(path, function(err, items) {
+      if (err) {
+        return false;
+      }
       return items;
     });
+  }
+
+  create() {
+    if (!this.exists()) {
+      return fs.mkdir(this.path, { recursive: true }, err => {
+        if (err) {
+          return false;
+        }
+        return true;
+      });
+    }
   }
 }

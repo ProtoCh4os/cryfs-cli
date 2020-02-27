@@ -3,24 +3,26 @@ import boxen from "boxen";
 import inquirer from "inquirer";
 import Handler from "./classes/Handler.js";
 
-const title = input => boxen(input, { padding: 1 });
-const say = input => console.log(chalk.yellow("*"), chalk.cyan(input));
-const success = input =>
-  console.log(chalk.green("✔"), chalk.greenBright(input));
-const fail = input => console.log(chalk.red("✖"), chalk.redBright(input));
-const warning = input =>
-  console.log(chalk.yellow("⚠"), chalk.yellowBright(input));
-const info = input => console.log(chalk.blue("ℹ"), chalk.blueBright(input));
-const error = input => console.log(chalk.red("⛔"), chalk.redBright(input));
+const speak = (icon, primary, secondary) => {
+  return function(input, showIcon = true) {
+    if (!showIcon) {
+      console.log(chalk[primary](input));
+    } else {
+      console.log(chalk[secondary](icon), chalk[primary](input));
+    }
+  };
+};
 
 const c = {
-  title,
-  say,
-  success,
-  fail,
-  warning,
-  info,
-  error
+  say: speak("*", "cyan", "yellow"),
+  success: speak("✔", "greenBright", "green"),
+  fail: speak("✖", "redBright", "red"),
+  warning: speak("⚠", "yellowBright", "yellow"),
+  info: speak("ℹ", "blueBright", "blue"),
+  error: speak("⛔", "redBright", "red"),
+  title(input) {
+    return boxen(input, { padding: 1 });
+  }
 };
 const handler = new Handler();
 

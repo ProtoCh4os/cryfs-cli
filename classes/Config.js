@@ -1,61 +1,77 @@
-import shelljs from "shelljs";
+import fs from "fs";
+import Folder from "./Folder.js";
+
+const defaultFolder = `${process.env.HOME}/.config/cryfs-cli`;
+const configPath = `${defaultFolder}/settings.json`;
 
 const defaultConfig = {
   introduction: true,
-  vaultsPath: "/var/lib/cryfs-cli/",
-  mountingPath: "/var/lib/cryfs-cli/open/",
+  vaultsPath: `${defaultFolder}/closed`,
+  mountingPath: `${defaultFolder}/open`,
   lang: "en_us"
 };
 
 export async function get() {
-  return await checkConfigFile();
+  let val = await checkConfigFile();
+  if (!val) {
+    val = defaultConfig;
+    await createConfig(true);
+  }
+  return val;
 }
 
 export async function set() {
-  global.config = await checkConfigFile();
+  global.config = await get();
 }
 
 export async function checkConfigFile() {
-  var opt = shelljs.exec(
-    `cat ${process.env.HOME}/.config/cryfs-cli/settings.json`,
-    { silent: true }
+  return new Promise((res, rej) =>
+    fs.readFile(
+      configPath,
+      "utf8",
+      (err, data) => {
+        if (err) {
+          res(false);
+        } else {
+          try {
+            res(JSON.parse(data));
+          } catch (e) {
+            rej(false);
+          }
+        }
+      }
+    )
   );
-  if (opt.code == 0) {
-    try {
-      var json = JSON.parse(opt.stdout);
-      return json;
-    } catch (e) {
-      return defaultConfig;
-    }
-  } else {
-    return false;
-  }
 }
 
 export async function createConfig(force = false) {
   if (checkConfigFile() === false || force) {
-    if (
-      shelljs.exec(`ls ${process.env.HOME}/.config/cryfs-cli`, {
-        silent: true
-      }).code != 0
-    ) {
-      shelljs.exec(`mkdir -p ${process.env.HOME}/.config/cryfs-cli`, {
-        silent: true
-      });
+    var configFile = new Folder(`${process.env.HOME}/.config/cryfs-cli`);
+
+    if (!configFile.exists()) {
+      configFile.create();
     }
 
-    if (
-      shelljs.exec(`cat ${process.env.HOME}/.config/cryfs-cli/settings.json`, {
-        silent: true
-      }).code != 0
-    ) {
-      let settings = JSON.stringify(settings);
-      shelljs.exec(
-        `echo "${settings}" >> ${process.env.HOME}/.config/cryfs-cli/settings.json`,
-        { silent: true }
-      );
-    }
-    return true;
+    return fs.readFile(
+      configPath,
+      "utf8",
+      err => {
+        if (err || force) {
+          get()
+            .then(content => {
+              return fs.writeFile(
+                configPath,
+                JSON.stringify(content),
+                "utf8",
+                err => !err
+              );
+            })
+            .catch(err => false);
+          return;
+        }
+        return false;
+      }
+    );
   }
   return false;
 }
@@ -67,14 +83,11 @@ export async function updateConfig(payload = false) {
       settings = { ...settings, ...payload };
     }
     global.config = settings;
-
-    return (
-      shelljs.exec(
-        `echo '${JSON.stringify(settings)}' > ${
-          process.env.HOME
-        }/.config/cryfs-cli/settings.json`,
-        { silent: true }
-      ).code == 0
+    return fs.writeFile(
+      configPath,
+      JSON.stringify(settings),
+      "utf8",
+      err => !err
     );
   }
 }
