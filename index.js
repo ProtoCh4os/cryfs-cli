@@ -1,4 +1,5 @@
-import main from "./menus/main.js";
+import shelljs from "shelljs";
+import { startUp } from "./menus/main.js";
 import { set as config } from "./classes/Config.js";
 import { set as lang } from "./classes/Lang.js";
 
@@ -6,7 +7,10 @@ import { set as lang } from "./classes/Lang.js";
   try {
     await config();
     await lang();
-    return main.startUp();
+    if (shelljs.exec("cryfs", { silent: true }).code == 127) {
+      return console.log(global.lang.cryfsMissing);
+    }
+    return startUp();
   } catch (e) {
     console.log("Error on startup:", e);
   }
