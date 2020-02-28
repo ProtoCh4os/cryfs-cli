@@ -8,17 +8,23 @@ export default class Folder {
     this.path = path;
   }
 
-  exists() {
-    return fs.existsSync(this.path) && fs.lstatSync(this.path).isDirectory();
+  exists(alsoDirectory = true) {
+    return (
+      fs.existsSync(this.path) &&
+      ((alsoDirectory && this.isDirectory) || !alsoDirectory)
+    );
+  }
+
+  isDirectory() {
+    fs.lstatSync(this.path).isDirectory();
   }
 
   isEmpty() {
-    return fs.readdir(this.path, function(err, files) {
-      if (err) {
-        return false;
-      }
-      return !files.length;
-    });
+    return !fs.readdirSync(this.path).length;
+  }
+
+  createSymb(to) {
+    return fs.symlinkSync(to, `${this.path}`);
   }
 
   getContent() {
@@ -26,17 +32,12 @@ export default class Folder {
       return false;
     }
 
-    return fs.readdir(path, function(err, items) {
-      if (err) {
-        return false;
-      }
-      return items;
-    });
+    return fs.readdirSync(this.path);
   }
 
   create() {
     if (!this.exists()) {
-      return fs.mkdir(this.path, { recursive: true }, err => {
+      return fs.mkdirSync(this.path, { recursive: true }, err => {
         if (err) {
           return false;
         }

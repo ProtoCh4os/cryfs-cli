@@ -1,7 +1,7 @@
 {
   "welcome": "Welcome to Cryfs-cli!",
   "intro": "This tool is meant to create vault-like folders to store sensitive data,\nthen encrypt it with a password.\n\nUnderstand that this tool comes with no warranty, so please use it with caution.\nDeveloped by @ProtoCh4os",
-  "cryfsMissing": "\n\nWarning!\n\nCryfs is essential for this tool's functioning. Please install it in your computer.\nMore info @ https://www.cryfs.org/\n\n",
+  "cryfsMissing": "\n\n⚠Warning⚠!\n\nCryfs is essential for this tool's functioning. Please install it in your computer.\nMore info @ https://www.cryfs.org/\n\n",
   "menu": {
     "prompt": "What would you like to do?",
     "openVault": "Open a vault",
@@ -10,6 +10,12 @@
     "deleteVault": "Delete a vault",
     "settings": "Settings",
     "exit": "Exit"
+  },
+  "open": {
+    "choose": "Please choose which Vault you'd like to open",
+    "password": "Please type in your password",
+    "success": "The vault was opened!",
+    "linkPlaced": "A link was placed on your home folder"
   },
   "goodbye": "Goodbye! 😊",
   "settingsChange": [
@@ -25,8 +31,12 @@
     "folder": "Folder is invalid",
     "cancel": "Operation canceled",
     "generic": "Something went wrong...",
+    "invalidPassword": "The password is not valid. Please enter a valid password.",
+    "incorrectPassword": "The password is not correct. Please enter again.",
+    "unknown": "An unknown error occurred",
     "vaultsDirectoryInvalid": "The chosen directory for storing encrypted vaults is missing. Please select a new one.",
-    "vaultsDirectoryEmpty": "You have no files in the encrypted vaults folder."
+    "vaultsDirectoryEmpty": "You have no files in the encrypted vaults folder.",
+    "mountingNotEmpty": "The mounting folder contains files! Could this vault already be open?"
   },
   "choices": {
     "yes": "yes",
