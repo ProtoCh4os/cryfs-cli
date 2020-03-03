@@ -27,12 +27,33 @@ export default class Folder {
     return fs.symlinkSync(to, `${this.path}`);
   }
 
+  delete() {
+    if (this.exists(false)) {
+      return this.isDirectory()
+        ? fs.rmdirSync(this.path)
+        : fs.unlinkSync(this.path);
+    }
+    return false;
+  }
+
   getContent() {
     if (this.isEmpty()) {
       return false;
     }
 
     return fs.readdirSync(this.path);
+  }
+
+  readFile() {
+    if (this.exists(false) && !this.isDirectory()) {
+      return fs.readFileSync(this.path, "utf8");
+    }
+    return false;
+  }
+
+  isMounted() {
+    let mtab = new Folder("/etc/mtab");
+    return mtab.readFile().includes(this.getRealPath());
   }
 
   create() {
@@ -43,6 +64,13 @@ export default class Folder {
         }
         return true;
       });
+    }
+    return false;
+  }
+
+  getRealPath() {
+    if (this.exists()) {
+      return fs.realpathSync(this.path);
     }
   }
 }

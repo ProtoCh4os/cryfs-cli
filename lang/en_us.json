@@ -17,11 +17,18 @@
     "success": "The vault was opened!",
     "linkPlaced": "A link was placed on your home folder"
   },
+  "close": {
+    "choose": "Please choose which Vault you'd like to close",
+    "closeThis": "Would you like to close {vault}",
+    "success": "The vault was successfully closed!",
+    "linkRemoved": "A link from the "
+  },
   "goodbye": "Goodbye! 😊",
   "settingsChange": [
     "What language would you like?",
     "Where will your encrypted vaults be located?",
     "Where will your decrypted vaults be located?",
+    "Should symbolic links to your vaults be created in your home folder upon opening those Vaults?",
     "Would you like to disable the introduction next time?",
     "Confirm Changes?",
     "Settings saved!"
@@ -36,7 +43,9 @@
     "unknown": "An unknown error occurred",
     "vaultsDirectoryInvalid": "The chosen directory for storing encrypted vaults is missing. Please select a new one.",
     "vaultsDirectoryEmpty": "You have no files in the encrypted vaults folder.",
-    "mountingNotEmpty": "The mounting folder contains files! Could this vault already be open?"
+    "mountingNotEmpty": "The mounting folder contains files! Could this vault already be open?",
+    "vaultAlreadyMounted": "The vault is already mounted!",
+    "noOpenVaults": "There are no open vaults!"
   },
   "choices": {
     "yes": "yes",

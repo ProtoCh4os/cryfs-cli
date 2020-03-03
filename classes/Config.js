@@ -8,6 +8,7 @@ const defaultConfig = {
   introduction: true,
   vaultsPath: `${defaultFolder}/closed`,
   mountingPath: `${defaultFolder}/open`,
+  placeSymLinks: true,
   lang: "en_us"
 };
 

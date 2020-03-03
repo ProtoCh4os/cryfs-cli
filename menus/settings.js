@@ -41,7 +41,7 @@ export default function() {
       {
         type: "list",
         message: global.lang.settingsChange[3],
-        name: "introduction",
+        name: "placeSymLinks",
         choices: [
           `👍 ${global.lang.choices.yes}`,
           `👎 ${global.lang.choices.no}`
@@ -50,6 +50,15 @@ export default function() {
       {
         type: "list",
         message: global.lang.settingsChange[4],
+        name: "introduction",
+        choices: [
+          `👍 ${global.lang.choices.yes}`,
+          `👎 ${global.lang.choices.no}`
+        ]
+      },
+      {
+        type: "list",
+        message: global.lang.settingsChange[5],
         name: "confirm",
         choices: [
           `👍 ${global.lang.choices.yes}`,
@@ -62,11 +71,13 @@ export default function() {
         delete answers.confirm;
         answers.introduction =
           answers.introduction == `👎 ${global.lang.choices.no}`;
+        answers.placeSymLinks =
+          answers.placeSymLinks != `👎 ${global.lang.choices.no}`;
         var settings = global.config;
         global.config = { ...settings, ...answers };
 
         if (updateConfig(global.config)) {
-          _.c.success(global.lang.settingsChange[5]);
+          _.c.success(global.lang.settingsChange[6]);
         } else {
           _.c.error(global.lang.errors.generic);
         }
