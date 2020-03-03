@@ -1,3 +1,5 @@
+#!/usr/bin/env -S node --no-warnings
+
 import shelljs from "shelljs";
 import { startUp } from "./menus/main.js";
 import { set as config } from "./classes/Config.js";
