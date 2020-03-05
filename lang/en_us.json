@@ -32,7 +32,11 @@
     "confirm": "Confirm changes?",
     "success": "The vault was successfully created!"
   },
-  "remove": {},
+  "remove": {
+    "choose": "Please choose which Vault you'd like to remove",
+    "confirm": "⚠ Atention! You're about to remove a Vault. This action cannot be undone. Proceed?",
+    "success": "The vault was successfully deleted!"
+  },
   "settingsChange": [
     "What language would you like?",
     "Where will your encrypted vaults be located?",

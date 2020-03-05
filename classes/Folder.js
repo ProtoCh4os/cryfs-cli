@@ -1,4 +1,5 @@
 import fs from "fs";
+import shelljs from 'shelljs'
 
 export default class Folder {
   constructor(path) {
@@ -36,8 +37,12 @@ export default class Folder {
     return false;
   }
 
-  deletedir(){
-    fs.rmdirSync(this.path)
+  deletedir(force = false){
+    if(force){
+      shelljs.rm("-rf",this.path)
+    }else {
+      fs.rmdirSync(this.path)
+    }
   }
 
   getContent() {

@@ -112,7 +112,6 @@ export default class Handler {
       }
     }
     if (folder.isMounted() && origin.isMounted()) {
-      console.log("both mounted");
       shelljs.exec(
         `cryfs-unmount ${folder.getRealPath()}`,
         {
@@ -138,11 +137,11 @@ export default class Handler {
         info.shift();
         if (info.length > 0) {
           info = info.shift();
-          if(info[0] === "/"){
-            info = info.substring(1, info.length)
+          if (info[0] === "/") {
+            info = info.substring(1, info.length);
           }
-          info = info.trim()
-          info = info.split(" ").shift()
+          info = info.trim();
+          info = info.split(" ").shift();
           shelljs.exec(
             `cryfs-unmount ${info}`,
             {
@@ -172,16 +171,17 @@ export default class Handler {
 
   createVault(name, password, callback) {
     const vault = new Folder(`${global.config.vaultsPath}/${name}`);
-    var tmpName = [...Array(30)]
-      .map(i => (~~(Math.random() * 36)).toString(36))
-      .join("")+"/";
+    var tmpName =
+      [...Array(30)].map(i => (~~(Math.random() * 36)).toString(36)).join("") +
+      "/";
     const tmpFolder = new Folder("/tmp/" + name + tmpName);
 
     let i = 0;
     while (tmpFolder.exists()) {
-      tmpName = [...Array(30)]
-        .map(i => (~~(Math.random() * 36)).toString(36))
-        .join("")+"/";
+      tmpName =
+        [...Array(30)]
+          .map(i => (~~(Math.random() * 36)).toString(36))
+          .join("") + "/";
       tmpFolder = new Folder("/tmp/" + name + tmpName);
       if (i++ > 10) {
         callback({ success: false, msg: global.lang.error.generic });
@@ -203,7 +203,7 @@ export default class Handler {
         silent: true
       },
       (code, stout, err) => {
-        tmpFolder.deletedir()
+        tmpFolder.deletedir();
         loading.stop();
         switch (code) {
           case 0:
@@ -222,5 +222,27 @@ export default class Handler {
         }
       }
     );
+  }
+
+  removeVault(vault, callback) {
+    const folder = new Folder(`${global.config.vaultsPath}/${vault}`);
+    const loading = ora(global.lang.loading).start();
+    const resolve = res => {
+      folder.deletedir(true);
+      loading.stop();
+      callback(res);
+    };
+
+    if (folder.isMounted()) {
+      this.unmountVault(vault, res => {
+        if (res.success) {
+          resolve({ success: true, msg: global.lang.remove.success });
+        } else {
+          resolve(res);
+        }
+      });
+    } else {
+      resolve({ success: true, msg: global.lang.remove.success });
+    }
   }
 }
