@@ -111,6 +111,7 @@ export default class Handler {
         removeSyml = true;
       }
     }
+    loading.stop();
     if (folder.isMounted() && origin.isMounted()) {
       shelljs.exec(
         `cryfs-unmount ${folder.getRealPath()}`,
@@ -134,20 +135,19 @@ export default class Handler {
         let info = new Folder("/etc/mtab")
           .readFile()
           .split(`cryfs@${origin.getRealPath()}`);
-        info.shift();
         if (info.length > 0) {
-          info = info.shift();
-          if (info[0] === "/") {
-            info = info.substring(1, info.length);
-          }
-          info = info.trim();
-          info = info.split(" ").shift();
+          info.shift();
+          info = info
+            .shift()
+            .trim()
+            .split(" ")
+            .shift();
           shelljs.exec(
             `cryfs-unmount ${info}`,
             {
               silent: true
             },
-            code => {
+            (code, stout, err) => {
               loading.stop();
               if (code == 0) {
                 if (removeSyml) {
@@ -155,7 +155,7 @@ export default class Handler {
                 }
                 callback({ success: true, msg: global.lang.close.success });
               } else {
-                callback({ success: false, msg: global.lang.error.generic });
+                callback({ success: false, msg: global.lang.errors.generic });
               }
             }
           );
@@ -203,12 +203,12 @@ export default class Handler {
         silent: true
       },
       (code, stout, err) => {
-        tmpFolder.deletedir();
         loading.stop();
         switch (code) {
           case 0:
             this.unmountVault(name, res => {
               if (res.success) {
+                tmpFolder.deletedir();
                 callback({ success: true, msg: global.lang.create.success });
               } else {
                 callback(res);
