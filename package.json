@@ -1,6 +1,6 @@
 {
   "name": "cryfs-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "kdevaults-like tool for creating, managing, mounting and deleting vaults.",
   "main": "index.js",
   "type": "module",
@@ -17,8 +17,11 @@
     "cryfs",
     "cryfs-cli"
   ],
+  "bin": {
+    "cryfs-cli": "./index.js"
+  },
   "engines": {
-    "node": ">=12.13.0 <12.16.1"
+    "node": ">=12.13.0"
   },
   "author": "ProtoCh4os",
   "license": "MIT",
@@ -30,6 +33,7 @@
     "boxen": "^4.2.0",
     "chalk": "^3.0.0",
     "inquirer": "^7.0.4",
+    "ora": "^4.0.3",
     "shelljs": "^0.8.3"
   }
 }

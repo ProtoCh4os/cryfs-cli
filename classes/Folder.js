@@ -30,10 +30,14 @@ export default class Folder {
   delete() {
     if (this.exists(false)) {
       return this.isDirectory()
-        ? fs.rmdirSync(this.path)
+        ? this.deletedir()
         : fs.unlinkSync(this.path);
     }
     return false;
+  }
+
+  deletedir(){
+    fs.rmdirSync(this.path)
   }
 
   getContent() {

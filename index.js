@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --no-warnings
+#!/usr/bin/env -S node --experimental_modules --no-warnings
 
 import shelljs from "shelljs";
 import { startUp } from "./menus/main.js";

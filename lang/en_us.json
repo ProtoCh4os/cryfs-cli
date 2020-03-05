@@ -2,6 +2,9 @@
   "welcome": "Welcome to Cryfs-cli!",
   "intro": "This tool is meant to create vault-like folders to store sensitive data,\nthen encrypt it with a password.\n\nUnderstand that this tool comes with no warranty, so please use it with caution.\nDeveloped by @ProtoCh4os",
   "cryfsMissing": "\n\n⚠Warning⚠!\n\nCryfs is essential for this tool's functioning. Please install it in your computer.\nMore info @ https://www.cryfs.org/\n\n",
+  "goodbye": "Goodbye! 😊",
+  "loading": "Loading...",
+  "mounted": "mounted",
   "menu": {
     "prompt": "What would you like to do?",
     "openVault": "Open a vault",
@@ -20,10 +23,16 @@
   "close": {
     "choose": "Please choose which Vault you'd like to close",
     "closeThis": "Would you like to close {vault}",
-    "success": "The vault was successfully closed!",
-    "linkRemoved": "A link from the "
+    "success": "The vault was successfully closed!"
   },
-  "goodbye": "Goodbye! 😊",
+  "create": {
+    "name": "What will be the vault's name?",
+    "password": "Please type in a password",
+    "retypePassword": "Please type the password again",
+    "confirm": "Confirm changes?",
+    "success": "The vault was successfully created!"
+  },
+  "remove": {},
   "settingsChange": [
     "What language would you like?",
     "Where will your encrypted vaults be located?",
@@ -40,7 +49,9 @@
     "generic": "Something went wrong...",
     "invalidPassword": "The password is not valid. Please enter a valid password.",
     "incorrectPassword": "The password is not correct. Please enter again.",
+    "passwordsDontMatch": "The passwords don't match! Please type again.",
     "unknown": "An unknown error occurred",
+    "vaultAlreadyExists": "This vault already exists",
     "vaultsDirectoryInvalid": "The chosen directory for storing encrypted vaults is missing. Please select a new one.",
     "vaultsDirectoryEmpty": "You have no files in the encrypted vaults folder.",
     "mountingNotEmpty": "The mounting folder contains files! Could this vault already be open?",

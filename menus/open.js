@@ -3,14 +3,17 @@ import { mainMenu } from "./main.js";
 
 export default function() {
   try {
-    var folders = _.handler.readVaults();
+    var folders = _.handler.readOpenVaults(true);
     return _.inquirer
       .prompt([
         {
           type: "list",
           message: global.lang.open.choose,
           name: "vault",
-          choices: folders
+          choices: folders,
+          filter: input => {
+            return input.replace(` (${global.lang.mounted})`, "");
+          }
         },
         {
           type: "password",
@@ -22,13 +25,12 @@ export default function() {
             }
             return true;
           },
-          name: "password",
-          choices: folders
+          name: "password"
         }
       ])
       .then(answers => {
         try {
-          _.handler.mountVault(answers.vault, answers.password).then(res => {
+          _.handler.mountVault(answers.vault, answers.password, res => {
             if (res.success) {
               _.c.success(res.msg);
             } else {

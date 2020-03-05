@@ -3,7 +3,7 @@ import { mainMenu } from "./main.js";
 
 export default function() {
   try {
-    var folders = _.handler.getMountedVaults();
+    var folders = _.handler.readOpenVaults();
     if (folders.length == 0) {
       _.c.error(global.lang.errors.noOpenVaults);
       return mainMenu();
@@ -20,8 +20,7 @@ export default function() {
         .then(answers => {
           try {
             _.handler
-              .unmountVault(answers.vault)
-              .then(res => {
+              .unmountVault(answers.vault, res => {
                 if (res.success) {
                   _.c.success(res.msg);
                 } else {
