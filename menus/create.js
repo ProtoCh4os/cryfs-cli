@@ -4,6 +4,10 @@ import { mainMenu } from "./main.js";
 export default function() {
   try {
     var allVaults = _.handler.readVaults();
+  } catch (e) {
+    var allVaults = [];
+  }
+  try{
     return _.inquirer
       .prompt([
         {
