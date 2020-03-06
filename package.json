@@ -1,6 +1,6 @@
 {
   "name": "cryfs-cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "kdevaults-like tool for creating, managing, mounting and deleting vaults.",
   "main": "index.js",
   "type": "module",
