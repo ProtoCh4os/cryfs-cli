@@ -1,5 +1,6 @@
 import shelljs from "shelljs";
 import Path from "path";
+import fs from 'fs';
 import { get as getConfig } from "./Config.js"
 
 export const langs = ["en_us"];
@@ -9,21 +10,18 @@ export async function get (lang = "") {
     lang = await getConfig();
   }
 
-  let path = import.meta.url.substring(7, import.meta.url.length);
-  path = Path.dirname(path);
+  let path = Path.resolve(Path.dirname(''))
+  
   if (langs.includes(lang)) {
-    var cmd = shelljs.exec(`cat ${path}/../lang/${lang}.json`, {
-      silent: true
-    });
+    var langFile = fs.readFileSync(`${path}/lang/${lang}.json`,'utf8');
   } else {
-    var cmd = shelljs.exec(`cat ${path}/../lang/en_us.json`, {
-      silent: true
-    });
+    var langFile = fs.readFileSync(`${path}/lang/en_us.json`,'utf8');
   }
-  if (cmd.code == 0) {
-    return JSON.parse(cmd.stdout);
+  try{
+    return JSON.parse(langFile);
+  } catch(e){
+    return false;
   }
-  return false;
 }
 
 export async function set() {
